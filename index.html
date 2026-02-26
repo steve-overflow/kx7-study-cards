@@ -2,303 +2,312 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#002366">
 <title>Study Cards</title>
-<link rel="manifest" href="manifest.json">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-:root{--navy:#002366;--gold:#C5960C;--gold-light:#F0D060;--bg:#0a1628;--card:#112244;--text:#f0f0f0;--text-dim:#8899bb}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-.header{background:var(--navy);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;border-bottom:3px solid var(--gold)}
-.header h1{font-size:18px;color:var(--gold-light)}
-.header .subtitle{font-size:11px;color:var(--text-dim)}
-.tabs{display:flex;gap:8px}
-.tabs button{background:none;border:2px solid var(--gold);color:var(--gold-light);padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer}
-.tabs button.active{background:var(--gold);color:var(--navy)}
-.container{max-width:500px;margin:0 auto;padding:16px}
-/* Flashcard */
-.card{background:var(--card);border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.4);margin-bottom:16px;cursor:pointer;-webkit-user-select:none;user-select:none;transition:transform .15s}
-.card:active{transform:scale(.98)}
-.card img{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:top;display:block;background:#1a2a4a}
-.card-info{padding:20px;text-align:center;min-height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.card-info.hidden-info{color:var(--text-dim);font-size:16px}
-.card-info .name{font-size:24px;font-weight:700;color:var(--gold-light);margin-bottom:8px}
-.card-info .details{font-size:16px;color:var(--text-dim)}
-.card-info .details span{margin:0 6px}
-.nav-row{display:flex;gap:12px;justify-content:center;margin:16px 0}
-.nav-row button{background:var(--navy);border:2px solid var(--gold);color:var(--gold-light);padding:12px 28px;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;min-width:100px}
-.nav-row button:active{background:var(--gold);color:var(--navy)}
-.progress-text{text-align:center;color:var(--text-dim);font-size:14px;margin-bottom:12px}
-/* Quiz */
-.quiz-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
-.quiz-options button{background:var(--card);border:2px solid var(--gold);color:var(--text);padding:16px 12px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s}
-.quiz-options button:active{transform:scale(.97)}
-.quiz-options button.correct{background:#1a6b2a;border-color:#2ecc40;color:#fff}
-.quiz-options button.wrong{background:#6b1a1a;border-color:#e74c3c;color:#fff}
-.score-bar{display:flex;justify-content:space-between;align-items:center;background:var(--card);padding:12px 16px;border-radius:12px;margin-bottom:16px}
-.score-bar .score{font-size:20px;font-weight:700;color:var(--gold-light)}
-.score-bar .label{font-size:12px;color:var(--text-dim)}
-/* Progress */
-.progress-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
-.progress-item{background:var(--card);border-radius:12px;padding:10px;display:flex;align-items:center;gap:10px}
-.progress-item img{width:48px;height:48px;border-radius:50%;object-fit:cover;object-position:top}
-.progress-item .pi-name{font-size:13px;font-weight:600}
-.progress-item .pi-stat{font-size:11px;color:var(--text-dim)}
-.progress-item.mastered{border:2px solid #2ecc40}
-.progress-item.struggling{border:2px solid #e74c3c}
-.progress-item.unseen{border:2px solid #555}
-.legend{display:flex;gap:16px;justify-content:center;margin-bottom:16px;font-size:12px;color:var(--text-dim)}
-.legend span::before{content:'';display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;vertical-align:middle}
-.legend .l-mastered::before{background:#2ecc40}
-.legend .l-struggling::before{background:#e74c3c}
-.legend .l-unseen::before{background:#555}
-.hidden{display:none!important}
-.reset-btn{background:none;border:1px solid #555;color:var(--text-dim);padding:8px 16px;border-radius:8px;font-size:12px;cursor:pointer;margin-top:16px;display:block;margin-left:auto;margin-right:auto}
-.img-placeholder{width:100%;aspect-ratio:3/4;background:#1a2a4a;display:flex;align-items:center;justify-content:center;color:var(--text-dim);font-size:14px}
+:root{--navy:#002366;--gold:#C5960C;--gold-light:#F0D060;--bg:#0a1628;--card:#112244;--text:#f0f0f0;--text-dim:#8899bb;--green:#2ecc40;--red:#e74c3c}
+html,body{height:100%;overflow:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text)}
 
-#pin-gate{position:fixed;top:0;left:0;right:0;bottom:0;background:#0a1628;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:40px 20px}
-#pin-gate h2{color:#C5960C;margin-bottom:8px;font-size:24px}
-#pin-gate p{color:#8899bb;margin-bottom:24px;font-size:14px}
-#pin-gate input{background:#112244;border:2px solid #C5960C;color:#f0f0f0;padding:16px 24px;border-radius:12px;font-size:28px;text-align:center;width:180px;letter-spacing:8px;outline:none}
-#pin-gate input:focus{border-color:#F0D060;box-shadow:0 0 20px rgba(197,150,12,0.3)}
-#pin-gate .err{color:#e74c3c;font-size:13px;margin-top:12px;min-height:20px}
+/* PIN GATE */
+#pin-gate{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:40px 20px}
+#pin-gate h2{font-size:48px;margin-bottom:12px}
+#pin-gate p{color:var(--text-dim);margin-bottom:24px;font-size:15px}
+#pin-gate input{background:var(--card);border:2px solid var(--gold);color:var(--text);padding:16px 24px;border-radius:12px;font-size:28px;text-align:center;width:180px;letter-spacing:8px;outline:none}
+#pin-gate input:focus{border-color:var(--gold-light);box-shadow:0 0 20px rgba(197,150,12,0.3)}
+#pin-gate .err{color:var(--red);font-size:13px;margin-top:12px;min-height:20px}
+
+/* LAYOUT: flex column, no scroll */
+#app{display:none;height:100%;flex-direction:column}
+.header{background:var(--navy);padding:8px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--gold);flex-shrink:0}
+.header h1{font-size:16px;color:var(--gold-light);white-space:nowrap}
+.header .subtitle{font-size:10px;color:var(--text-dim)}
+.tabs{display:flex;gap:6px}
+.tabs button{background:none;border:2px solid var(--gold);color:var(--gold-light);padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
+.tabs button.active{background:var(--gold);color:var(--navy)}
+
+/* Views fill remaining space */
+.view{flex:1;display:none;flex-direction:column;overflow:hidden;min-height:0}
+.view.active{display:flex}
+
+/* FLASHCARD VIEW */
+#view-flash{padding:8px 12px;gap:8px}
+.flash-progress{text-align:center;color:var(--text-dim);font-size:13px;flex-shrink:0}
+.card-wrap{flex:1;min-height:0;display:flex;flex-direction:column;cursor:pointer;-webkit-user-select:none;user-select:none}
+.card{background:var(--card);border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.4);display:flex;flex-direction:column;height:100%;transition:transform .1s}
+.card:active{transform:scale(.98)}
+.card-img-wrap{flex:1;min-height:0;position:relative;overflow:hidden;background:#1a2a4a}
+.card-img-wrap img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+.card-img-wrap .no-photo{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--text-dim);font-size:14px}
+.card-info{padding:12px 16px;text-align:center;flex-shrink:0;min-height:60px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all .3s}
+.card-info.hidden-info{color:var(--text-dim);font-size:15px}
+.card-info .name{font-size:22px;font-weight:700;color:var(--gold-light);line-height:1.2}
+.card-info .details{font-size:13px;color:var(--text-dim);margin-top:4px;line-height:1.4}
+.card-info .details span{margin:0 4px}
+.card-info .bio-line{font-size:11px;color:var(--text-dim);margin-top:4px;opacity:.8;line-height:1.3}
+.flash-nav{display:flex;gap:10px;justify-content:center;flex-shrink:0;padding:4px 0}
+.flash-nav button{background:var(--navy);border:2px solid var(--gold);color:var(--gold-light);padding:10px 24px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;flex:1;max-width:140px}
+.flash-nav button:active{background:var(--gold);color:var(--navy)}
+
+/* QUIZ VIEW */
+#view-quiz{padding:8px 12px;gap:8px}
+.score-bar{display:flex;justify-content:space-between;align-items:center;background:var(--card);padding:10px 14px;border-radius:12px;flex-shrink:0}
+.score-bar .score{font-size:18px;font-weight:700;color:var(--gold-light)}
+.score-bar .label{font-size:11px;color:var(--text-dim)}
+.score-bar button{background:var(--gold);color:var(--navy);border:none;padding:7px 14px;border-radius:8px;font-weight:600;font-size:12px;cursor:pointer}
+.quiz-card-wrap{flex:1;min-height:0;border-radius:16px;overflow:hidden;background:var(--card);box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.quiz-card-wrap img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+.quiz-options{display:grid;grid-template-columns:1fr 1fr;gap:8px;flex-shrink:0}
+.quiz-options button{background:var(--card);border:2px solid var(--gold);color:var(--text);padding:14px 10px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;line-height:1.2}
+.quiz-options button:active{transform:scale(.97)}
+.quiz-options button.correct{background:#1a6b2a;border-color:var(--green);color:#fff}
+.quiz-options button.wrong{background:#6b1a1a;border-color:var(--red);color:#fff}
+
+/* STATS VIEW */
+#view-progress{padding:8px 12px;gap:8px}
+.legend{display:flex;gap:14px;justify-content:center;font-size:11px;color:var(--text-dim);flex-shrink:0}
+.legend span::before{content:'';display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;vertical-align:middle}
+.legend .l-m::before{background:var(--green)}
+.legend .l-s::before{background:var(--red)}
+.legend .l-u::before{background:#555}
+.progress-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;min-height:0}
+.progress-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;padding-bottom:8px}
+.progress-item{background:var(--card);border-radius:10px;padding:8px;display:flex;align-items:center;gap:8px}
+.progress-item img{width:44px;height:44px;border-radius:50%;object-fit:cover;object-position:top;flex-shrink:0}
+.progress-item .pi-name{font-size:12px;font-weight:600;line-height:1.2}
+.progress-item .pi-stat{font-size:10px;color:var(--text-dim)}
+.progress-item.mastered{border:2px solid var(--green)}
+.progress-item.struggling{border:2px solid var(--red)}
+.progress-item.unseen{border:2px solid #555}
+.reset-btn{background:none;border:1px solid #555;color:var(--text-dim);padding:8px 16px;border-radius:8px;font-size:12px;cursor:pointer;display:block;margin:8px auto 0;flex-shrink:0}
+
+/* Desktop: constrain width */
+@media(min-width:600px){
+  #app{max-width:480px;margin:0 auto}
+}
 </style>
 </head>
 <body>
+
 <div id="pin-gate">
 <h2>🏐</h2>
 <p>Enter PIN</p>
-<input type="tel" id="pin-input" maxlength="4" autofocus autocomplete="off" inputmode="numeric" pattern="[0-9]*">
+<input type="tel" id="pin-input" maxlength="4" autofocus autocomplete="off" inputmode="numeric">
 <div class="err" id="pin-err"></div>
 </div>
+
+<div id="app">
 <div class="header">
- <div><h1>🏐 Berry Vikings</h1><div class="subtitle">Beach Volleyball Flashcards</div></div>
+ <div><h1>🏐 Berry Vikings</h1><div class="subtitle">Beach Volleyball 2026</div></div>
  <div class="tabs">
-  <button id="tab-flash" class="active" onclick="switchTab('flash')">Cards</button>
-  <button id="tab-quiz" onclick="switchTab('quiz')">Quiz</button>
-  <button id="tab-progress" onclick="switchTab('progress')">Stats</button>
+  <button class="active" onclick="switchTab('flash')">Cards</button>
+  <button onclick="switchTab('quiz')">Quiz</button>
+  <button onclick="switchTab('progress')">Stats</button>
  </div>
 </div>
 
-<div class="container" id="view-flash">
- <div class="progress-text" id="flash-progress"></div>
- <div class="card" id="flash-card" onclick="flipCard()">
-  <img id="flash-img" src="" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-  <div class="img-placeholder" style="display:none">📷 No photo</div>
-  <div class="card-info hidden-info" id="flash-info">Tap to reveal</div>
+<div class="view active" id="view-flash">
+ <div class="flash-progress" id="flash-progress"></div>
+ <div class="card-wrap" id="flash-card" onclick="flipCard()">
+  <div class="card">
+   <div class="card-img-wrap">
+    <img id="flash-img" src="" alt="" onerror="this.style.display='none'">
+    <div class="no-photo" id="flash-noimg" style="display:none">📷</div>
+   </div>
+   <div class="card-info hidden-info" id="flash-info">Tap to reveal</div>
+  </div>
  </div>
- <div class="nav-row">
-  <button onclick="prevCard()">← Prev</button>
-  <button onclick="shuffleDeck()">🔀 Shuffle</button>
-  <button onclick="nextCard()">Next →</button>
+ <div class="flash-nav">
+  <button onclick="prevCard();event.stopPropagation()">← Prev</button>
+  <button onclick="shuffleDeck();event.stopPropagation()">🔀</button>
+  <button onclick="nextCard();event.stopPropagation()">Next →</button>
  </div>
 </div>
 
-<div class="container hidden" id="view-quiz">
+<div class="view" id="view-quiz">
  <div class="score-bar">
-  <div><div class="label">Score</div><div class="score" id="quiz-score">0 / 0</div></div>
-  <div><div class="label">Streak</div><div class="score" id="quiz-streak">0 🔥</div></div>
-  <button onclick="startQuiz()" style="background:var(--gold);color:var(--navy);border:none;padding:8px 16px;border-radius:8px;font-weight:600;font-size:13px;cursor:pointer">New Round</button>
+  <div><div class="label">Score</div><div class="score" id="quiz-score">0/0</div></div>
+  <div><div class="label">Streak</div><div class="score" id="quiz-streak">0🔥</div></div>
+  <button onclick="startQuiz()">New</button>
  </div>
- <div class="card" style="cursor:default">
-  <img id="quiz-img" src="" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-  <div class="img-placeholder" style="display:none">📷 No photo</div>
+ <div class="quiz-card-wrap">
+  <img id="quiz-img" src="" alt="">
  </div>
  <div class="quiz-options" id="quiz-options"></div>
 </div>
 
-<div class="container hidden" id="view-progress">
+<div class="view" id="view-progress">
  <div class="legend">
-  <span class="l-mastered">Mastered (3+)</span>
-  <span class="l-struggling">Struggling</span>
-  <span class="l-unseen">Unseen</span>
+  <span class="l-m">Mastered</span>
+  <span class="l-s">Struggling</span>
+  <span class="l-u">Unseen</span>
  </div>
- <div class="progress-grid" id="progress-grid"></div>
- <button class="reset-btn" onclick="resetProgress()">Reset All Progress</button>
+ <div class="progress-scroll">
+  <div class="progress-grid" id="progress-grid"></div>
+ </div>
+ <button class="reset-btn" onclick="resetProgress()">Reset Progress</button>
+</div>
 </div>
 
 <script>
-const ROSTER=[
-{name:"Kara Schmit",num:1,pos:"Def",year:"Sr.",type:"player"},
-{name:"Becky Blaydes",num:2,pos:"Spl/Def",year:"Jr.",type:"player"},
-{name:"Riley Kessler",num:3,pos:"D",year:"Fr.",type:"player"},
-{name:"Grace Mau",num:4,pos:"B",year:"Jr.",type:"player"},
-{name:"Kaylee Howell",num:5,pos:"Spl",year:"Jr.",type:"player"},
-{name:"Ailee England",num:6,pos:"Spl",year:"So.",type:"player"},
-{name:"Madie Whitehead",num:7,pos:"B",year:"Jr.",type:"player"},
-{name:"Ava Brovet",num:8,pos:"Spl",year:"Fr.",type:"player"},
-{name:"Keira Kruk",num:9,pos:"Def/Spl",year:"Jr.",type:"player"},
-{name:"Hope Kimsey",num:10,pos:"B",year:"So.",type:"player"},
-{name:"Kat Kelyman",num:11,pos:"Def",year:"Sr.",type:"player"},
-{name:"Maddie Dahl",num:12,pos:"-",year:"So.",type:"player"},
-{name:"Lura Underwood",num:16,pos:"Spl/Def",year:"Sr.",type:"player"},
-{name:"Hannah Hagen",num:18,pos:"D",year:"Fr.",type:"player"},
-{name:"Maddi Hoffman",num:22,pos:"Spl",year:"Fr.",type:"player"},
-{name:"Ryn Gaertner",num:24,pos:"Spl",year:"Jr.",type:"player"},
-{name:"Sabine Rudolph",num:25,pos:"Spl",year:"Jr.",type:"player"},
-{name:"Cadence Maxfield",num:null,pos:"-",year:"Sr.",type:"player"},
-{name:"Caitlyn Moriarty",num:null,pos:"Head Coach",year:null,type:"coach"},
-{name:"Rachel Ford",num:null,pos:"Assistant Coach",year:null,type:"coach"},
-{name:"Molly Bergin",num:null,pos:"Assistant Coach",year:null,type:"coach"}
+/* --- PIN GATE --- */
+const PIN_HASH='08d16';
+const pinInput=document.getElementById('pin-input');
+pinInput.addEventListener('input',async()=>{
+ if(pinInput.value.length===4){
+  const buf=await crypto.subtle.digest('SHA-1',new TextEncoder().encode('vbfc:'+pinInput.value));
+  const hex=[...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,'0')).join('');
+  if(hex.startsWith(PIN_HASH)){
+   sessionStorage.setItem('vba','1');
+   document.getElementById('pin-gate').style.display='none';
+   document.getElementById('app').style.display='flex';
+  }else{
+   document.getElementById('pin-err').textContent='Wrong PIN';
+   pinInput.value='';pinInput.focus();
+  }
+ }else{document.getElementById('pin-err').textContent=''}
+});
+if(sessionStorage.getItem('vba')==='1'){
+ document.getElementById('pin-gate').style.display='none';
+ document.getElementById('app').style.display='flex';
+}
+
+/* --- ROSTER DATA --- */
+const R=[
+{name:"Kara Schmit",num:1,pos:"Def",year:"Sr.",ht:"5'8\"",town:"Muskego, Wis.",hs:"Divine Savior Holy Angels",major:"",club:"",type:"player"},
+{name:"Becky Blaydes",num:2,pos:"Spl/Def",year:"Jr.",ht:"5'7\"",town:"Roswell, Ga.",hs:"Pope",major:"",club:"",type:"player"},
+{name:"Riley Kessler",num:3,pos:"D",year:"Fr.",ht:"5'5\"",town:"Littleton, Colo.",hs:"Chatfield",major:"",club:"",type:"player"},
+{name:"Grace Mau",num:4,pos:"B",year:"Jr.",ht:"6'0\"",town:"Lynchburg, Va.",hs:"Liberty Christian",major:"Animal Science/Pre-Vet",club:"",type:"player"},
+{name:"Kaylee Howell",num:5,pos:"Spl",year:"Jr.",ht:"5'10\"",town:"Roswell, Ga.",hs:"Johnson Ferry Christian Academy",major:"",club:"",type:"player"},
+{name:"Ailee England",num:6,pos:"Spl",year:"So.",ht:"5'9\"",town:"Cartersville, Ga.",hs:"Cartersville",major:"",club:"",type:"player"},
+{name:"Madie Whitehead",num:7,pos:"B",year:"Jr.",ht:"5'9\"",town:"Pearland, Tx.",hs:"Pearland",major:"Exercise Science",club:"Houston Stellar VB Club",type:"player"},
+{name:"Ava Brovet",num:8,pos:"Spl",year:"Fr.",ht:"5'9\"",town:"Raleigh, N.C.",hs:"Trinity Academy of Raleigh",major:"",club:"",type:"player"},
+{name:"Keira Kruk",num:9,pos:"Def/Spl",year:"Jr.",ht:"5'10\"",town:"Naples, Fla.",hs:"Barron Collier",major:"Nursing",club:"USA South VB Club",type:"player"},
+{name:"Hope Kimsey",num:10,pos:"B",year:"So.",ht:"5'11\"",town:"Lakeland, Fla.",hs:"McKeel Academy",major:"",club:"",type:"player"},
+{name:"Kat Kelyman",num:11,pos:"Def",year:"Sr.",ht:"5'8\"",town:"Silver Spring, Md.",hs:"St. John's College",major:"",club:"",type:"player"},
+{name:"Maddie Dahl",num:12,pos:"—",year:"So.",ht:"",town:"Lexington, Va.",hs:"Rockbridge County",major:"",club:"",type:"player"},
+{name:"Lura Underwood",num:16,pos:"Spl/Def",year:"Sr.",ht:"5'10\"",town:"Atlanta, Ga.",hs:"St. Pius X Catholic",major:"",club:"",type:"player"},
+{name:"Hannah Hagen",num:18,pos:"D",year:"Fr.",ht:"5'5\"",town:"Cumming, Ga.",hs:"North Forsyth",major:"Intl Business/Marketing",club:"",type:"player"},
+{name:"Maddi Hoffman",num:22,pos:"Spl",year:"Fr.",ht:"5'8\"",town:"Monterey, Calif.",hs:"Carrollton",major:"Biology",club:"",type:"player"},
+{name:"Ryn Gaertner",num:24,pos:"Spl",year:"Jr.",ht:"5'10\"",town:"Knoxville, Tenn.",hs:"West",major:"Business & Chemistry",club:"Club Unite",type:"player"},
+{name:"Sabine Rudolph",num:25,pos:"Spl",year:"Jr.",ht:"5'10\"",town:"Palm City, Fla.",hs:"Jensen Beach",major:"Intl Business & Pre-Pharmacy",club:"",type:"player"},
+{name:"Cadence Maxfield",num:null,pos:"—",year:"Sr.",ht:"5'9\"",town:"Green Bay, Wis.",hs:"Notre Dame Academy",major:"",club:"",type:"player"},
+{name:"Caitlyn Moriarty",num:null,pos:"Head Coach",year:null,ht:"",town:"",hs:"",major:"",club:"",type:"coach"},
+{name:"Rachel Ford",num:null,pos:"Asst Coach",year:null,ht:"",town:"",hs:"",major:"",club:"",type:"coach"},
+{name:"Molly Bergin",num:null,pos:"Asst Coach",year:null,ht:"",town:"",hs:"",major:"",club:"",type:"coach"},
 ];
 
-function imgUrl(p){
- const[first,...rest]=p.name.split(' ');
- return`https://berryvikings.com/images/2026/1/21/Headshots_${first}_${rest.join('_')}.jpg`;
+function imgUrl(p){const[f,...r]=p.name.split(' ');return`https://berryvikings.com/images/2026/1/21/Headshots_${f}_${r.join('_')}.jpg`}
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=0|Math.random()*(i+1);[b[i],b[j]]=[b[j],b[i]]}return b}
+
+/* --- PROGRESS --- */
+function gp(){try{return JSON.parse(localStorage.getItem('vb2'))||{}}catch(e){return{}}}
+function sp(p){localStorage.setItem('vb2',JSON.stringify(p))}
+function rec(name,ok){const p=gp();if(!p[name])p[name]={r:0,w:0};ok?p[name].r++:p[name].w++;sp(p)}
+function resetProgress(){if(confirm('Reset all progress?')){localStorage.removeItem('vb2');renderProgress()}}
+
+/* --- FLASHCARD --- */
+let deck=shuffle(R),di=0,rev=false;
+function setImg(id,noid,p){
+ const img=document.getElementById(id),no=document.getElementById(noid);
+ if(no)no.style.display='none';
+ img.style.display='';
+ img.onerror=()=>{img.style.display='none';if(no)no.style.display='flex'};
+ img.src=imgUrl(p);img.alt=p.name;
 }
-
-// Progress stored in localStorage
-function getProgress(){
- try{return JSON.parse(localStorage.getItem('vb-progress'))||{}}catch(e){return{}}
-}
-function saveProgress(p){localStorage.setItem('vb-progress',JSON.stringify(p))}
-function recordResult(name,correct){
- const p=getProgress();
- if(!p[name])p[name]={right:0,wrong:0};
- correct?p[name].right++:p[name].wrong++;
- saveProgress(p);
-}
-function resetProgress(){if(confirm('Reset all progress?')){localStorage.removeItem('vb-progress');renderProgress()}}
-
-// Shuffle
-function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
-
-// FLASHCARD MODE
-let deck=shuffle(ROSTER),deckIdx=0,revealed=false;
-
-function renderFlashcard(){
- const p=deck[deckIdx];
- document.getElementById('flash-img').style.display='';
- document.getElementById('flash-img').nextElementSibling.style.display='none';
- document.getElementById('flash-img').src=imgUrl(p);
- document.getElementById('flash-img').alt=p.name;
+function renderFlash(){
+ const p=deck[di];
+ setImg('flash-img','flash-noimg',p);
  const info=document.getElementById('flash-info');
- if(revealed){
+ if(rev){
   info.className='card-info';
-  const numStr=p.num?`#${p.num}`:'';
-  const yearStr=p.year||'';
-  info.innerHTML=`<div class="name">${p.name}</div><div class="details"><span>${numStr}</span><span>${p.pos}</span><span>${yearStr}</span></div>`;
+  const numStr=p.num?`#${p.num} · `:'';
+  const htStr=p.ht?` · ${p.ht}`:'';
+  let bio=[];
+  if(p.town)bio.push(p.town);
+  if(p.hs)bio.push(p.hs);
+  let bio2=[];
+  if(p.major)bio2.push(p.major);
+  if(p.club)bio2.push(p.club);
+  info.innerHTML=`<div class="name">${p.name}</div>`+
+   `<div class="details">${numStr}${p.pos} · ${p.year||''}${htStr}</div>`+
+   (bio.length?`<div class="bio-line">📍 ${bio.join(' · ')}</div>`:'')+
+   (bio2.length?`<div class="bio-line">${bio2.join(' · ')}</div>`:'');
  }else{
   info.className='card-info hidden-info';
   info.innerHTML='Tap to reveal';
  }
- document.getElementById('flash-progress').textContent=`${deckIdx+1} / ${deck.length}`;
+ document.getElementById('flash-progress').textContent=`${di+1} / ${deck.length}`;
 }
-function flipCard(){revealed=!revealed;renderFlashcard()}
-function nextCard(){deckIdx=(deckIdx+1)%deck.length;revealed=false;renderFlashcard()}
-function prevCard(){deckIdx=(deckIdx-1+deck.length)%deck.length;revealed=false;renderFlashcard()}
-function shuffleDeck(){deck=shuffle(ROSTER);deckIdx=0;revealed=false;renderFlashcard()}
+function flipCard(){rev=!rev;renderFlash()}
+function nextCard(){di=(di+1)%deck.length;rev=false;renderFlash()}
+function prevCard(){di=(di-1+deck.length)%deck.length;rev=false;renderFlash()}
+function shuffleDeck(){deck=shuffle(R);di=0;rev=false;renderFlash()}
 
-// Swipe support
-let touchStartX=0;
-document.addEventListener('touchstart',e=>{touchStartX=e.changedTouches[0].screenX},{passive:true});
+/* Swipe */
+let tx=0;
+document.addEventListener('touchstart',e=>{tx=e.changedTouches[0].screenX},{passive:true});
 document.addEventListener('touchend',e=>{
- const dx=e.changedTouches[0].screenX-touchStartX;
- if(Math.abs(dx)>60){
-  const view=document.querySelector('.container:not(.hidden)');
-  if(view&&view.id==='view-flash'){dx<0?nextCard():prevCard()}
- }
+ const dx=e.changedTouches[0].screenX-tx;
+ if(Math.abs(dx)>60&&document.getElementById('view-flash').classList.contains('active')){dx<0?nextCard():prevCard()}
 },{passive:true});
 
-// QUIZ MODE
-let quizDeck=[],quizIdx=0,quizCorrect=0,quizTotal=0,quizStreak=0,quizLocked=false;
-
-function startQuiz(){quizDeck=shuffle(ROSTER);quizIdx=0;quizCorrect=0;quizTotal=0;quizStreak=0;updateScore();renderQuiz()}
-function updateScore(){
- document.getElementById('quiz-score').textContent=`${quizCorrect} / ${quizTotal}`;
- document.getElementById('quiz-streak').textContent=`${quizStreak} 🔥`;
+/* --- QUIZ --- */
+let qd=[],qi=0,qc=0,qt=0,qs=0,ql=false;
+function startQuiz(){qd=shuffle(R);qi=0;qc=0;qt=0;qs=0;updScore();renderQuiz()}
+function updScore(){
+ document.getElementById('quiz-score').textContent=`${qc}/${qt}`;
+ document.getElementById('quiz-streak').textContent=`${qs}🔥`;
 }
 function renderQuiz(){
- if(quizIdx>=quizDeck.length){quizIdx=0;quizDeck=shuffle(ROSTER)}
- quizLocked=false;
- const p=quizDeck[quizIdx];
- document.getElementById('quiz-img').style.display='';
- document.getElementById('quiz-img').nextElementSibling.style.display='none';
+ if(qi>=qd.length){qi=0;qd=shuffle(R)}
+ ql=false;const p=qd[qi];
  document.getElementById('quiz-img').src=imgUrl(p);
- // Pick 3 wrong answers
- const others=ROSTER.filter(x=>x.name!==p.name);
- const wrong=shuffle(others).slice(0,3);
- const opts=shuffle([p,...wrong]);
- const container=document.getElementById('quiz-options');
- container.innerHTML='';
+ const others=shuffle(R.filter(x=>x.name!==p.name)).slice(0,3);
+ const opts=shuffle([p,...others]);
+ const c=document.getElementById('quiz-options');c.innerHTML='';
  opts.forEach(o=>{
-  const btn=document.createElement('button');
-  btn.textContent=o.name;
-  btn.onclick=()=>answerQuiz(btn,o.name===p.name,p.name);
-  container.appendChild(btn);
+  const b=document.createElement('button');b.textContent=o.name;
+  b.onclick=()=>ansQuiz(b,o.name===p.name,p.name);c.appendChild(b);
  });
 }
-function answerQuiz(btn,correct,correctName){
- if(quizLocked)return;
- quizLocked=true;quizTotal++;
- if(correct){
-  btn.classList.add('correct');quizCorrect++;quizStreak++;
-  recordResult(correctName,true);
- }else{
-  btn.classList.add('wrong');quizStreak=0;
-  recordResult(correctName,false);
-  // Highlight correct
-  document.querySelectorAll('#quiz-options button').forEach(b=>{if(b.textContent===correctName)b.classList.add('correct')});
- }
- updateScore();
- setTimeout(()=>{quizIdx++;renderQuiz()},correct?800:1500);
+function ansQuiz(b,ok,cn){
+ if(ql)return;ql=true;qt++;
+ if(ok){b.classList.add('correct');qc++;qs++;rec(cn,true)}
+ else{b.classList.add('wrong');qs=0;rec(cn,false);
+  document.querySelectorAll('#quiz-options button').forEach(x=>{if(x.textContent===cn)x.classList.add('correct')})}
+ updScore();setTimeout(()=>{qi++;renderQuiz()},ok?700:1400);
 }
 
-// PROGRESS VIEW
+/* --- PROGRESS --- */
 function renderProgress(){
- const prog=getProgress();
- const grid=document.getElementById('progress-grid');
- grid.innerHTML='';
- ROSTER.forEach(p=>{
-  const s=prog[p.name]||{right:0,wrong:0};
-  const total=s.right+s.wrong;
-  let cls='unseen';
-  if(total>0){cls=s.right>=3&&s.right>s.wrong?'mastered':'struggling';if(s.right>0&&s.wrong===0&&total<3)cls='unseen'}
-  const div=document.createElement('div');
-  div.className=`progress-item ${cls}`;
-  div.innerHTML=`<img src="${imgUrl(p)}" alt="" onerror="this.style.display='none'"><div><div class="pi-name">${p.name}</div><div class="pi-stat">${s.right}✓ ${s.wrong}✗</div></div>`;
-  grid.appendChild(div);
+ const prog=gp(),g=document.getElementById('progress-grid');g.innerHTML='';
+ R.forEach(p=>{
+  const s=prog[p.name]||{r:0,w:0},t=s.r+s.w;
+  let c='unseen';if(t>0)c=s.r>=3&&s.r>s.w?'mastered':'struggling';
+  if(s.r>0&&s.w===0&&t<3)c='unseen';
+  const d=document.createElement('div');d.className=`progress-item ${c}`;
+  d.innerHTML=`<img src="${imgUrl(p)}" alt="" onerror="this.style.display='none'"><div><div class="pi-name">${p.name}</div><div class="pi-stat">${s.r}✓ ${s.w}✗</div></div>`;
+  g.appendChild(d);
  });
 }
 
-// TAB SWITCHING
-function switchTab(tab){
- document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
- document.getElementById('tab-'+tab).classList.add('active');
- ['flash','quiz','progress'].forEach(v=>document.getElementById('view-'+v).classList.toggle('hidden',v!==tab));
- if(tab==='progress')renderProgress();
- if(tab==='quiz'&&quizDeck.length===0)startQuiz();
+/* --- TABS --- */
+function switchTab(t){
+ document.querySelectorAll('.tabs button').forEach((b,i)=>{
+  const ids=['flash','quiz','progress'];
+  b.classList.toggle('active',ids[i]===t);
+ });
+ document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+t));
+ if(t==='progress')renderProgress();
+ if(t==='quiz'&&qd.length===0)startQuiz();
 }
 
-// Init
-renderFlashcard();
+renderFlash();
 </script>
-
-<script>
-(function(){
- const H='08b61';
- if(sessionStorage.getItem('vba')==='1'){document.getElementById('pin-gate').remove();return}
- document.querySelectorAll('.header,.container').forEach(e=>e.style.display='none');
- const inp=document.getElementById('pin-input');
- inp.addEventListener('input',async function(){
-  if(inp.value.length===4){
-   const buf=await crypto.subtle.digest('SHA-1',new TextEncoder().encode('vbfc:'+inp.value));
-   const hex=[...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,'0')).join('');
-   if(hex.startsWith(H)){
-    sessionStorage.setItem('vba','1');
-    document.getElementById('pin-gate').remove();
-    document.querySelectorAll('.header,.container').forEach(e=>e.style.display='');
-   }else{
-    document.getElementById('pin-err').textContent='Wrong PIN';
-    inp.value='';inp.focus();
-   }
-  }else{document.getElementById('pin-err').textContent=''}
- });
-})();
-</script>
-
 </body>
 </html>
