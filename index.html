@@ -21,73 +21,83 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 #pin-gate input:focus{border-color:var(--gold-light);box-shadow:0 0 20px rgba(197,150,12,0.3)}
 #pin-gate .err{color:var(--red);font-size:13px;margin-top:12px;min-height:20px}
 
-/* LAYOUT: flex column, no scroll */
+/* LAYOUT */
 #app{display:none;height:100%;flex-direction:column}
 .header{background:var(--navy);padding:8px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--gold);flex-shrink:0}
-.header h1{font-size:16px;color:var(--gold-light);white-space:nowrap}
+.header h1{font-size:15px;color:var(--gold-light);white-space:nowrap}
 .header .subtitle{font-size:10px;color:var(--text-dim)}
-.tabs{display:flex;gap:6px}
-.tabs button{background:none;border:2px solid var(--gold);color:var(--gold-light);padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
+.tabs{display:flex;gap:4px}
+.tabs button{background:none;border:2px solid var(--gold);color:var(--gold-light);padding:5px 10px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap}
 .tabs button.active{background:var(--gold);color:var(--navy)}
-
-/* Views fill remaining space */
 .view{flex:1;display:none;flex-direction:column;overflow:hidden;min-height:0}
 .view.active{display:flex}
 
-/* FLASHCARD VIEW */
-#view-flash{padding:8px 12px;gap:8px}
-.flash-progress{text-align:center;color:var(--text-dim);font-size:13px;flex-shrink:0}
+/* FLASHCARD */
+#view-flash{padding:6px 10px;gap:6px}
+.flash-progress{text-align:center;color:var(--text-dim);font-size:12px;flex-shrink:0}
+.flash-progress .photo-toggle{font-size:11px;display:inline-block;margin-left:10px;background:var(--card);padding:2px 8px;border-radius:10px;cursor:pointer;border:1px solid var(--text-dim)}
+.flash-progress .photo-toggle:hover{border-color:var(--gold)}
 .card-wrap{flex:1;min-height:0;display:flex;flex-direction:column;cursor:pointer;-webkit-user-select:none;user-select:none}
-.card{background:var(--card);border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.4);display:flex;flex-direction:column;height:100%;transition:transform .1s}
+.card{background:var(--card);border-radius:14px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.4);display:flex;flex-direction:column;height:100%;transition:transform .1s}
 .card:active{transform:scale(.98)}
 .card-img-wrap{flex:1;min-height:0;position:relative;overflow:hidden;background:#1a2a4a}
-.card-img-wrap img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+.card-img-wrap img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;transition:opacity .3s}
 .card-img-wrap .no-photo{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--text-dim);font-size:14px}
-.card-info{padding:12px 16px;text-align:center;flex-shrink:0;min-height:60px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all .3s}
-.card-info.hidden-info{color:var(--text-dim);font-size:15px}
-.card-info .name{font-size:22px;font-weight:700;color:var(--gold-light);line-height:1.2}
-.card-info .details{font-size:13px;color:var(--text-dim);margin-top:4px;line-height:1.4}
-.card-info .details span{margin:0 4px}
-.card-info .bio-line{font-size:11px;color:var(--text-dim);margin-top:4px;opacity:.8;line-height:1.3}
-.flash-nav{display:flex;gap:10px;justify-content:center;flex-shrink:0;padding:4px 0}
-.flash-nav button{background:var(--navy);border:2px solid var(--gold);color:var(--gold-light);padding:10px 24px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;flex:1;max-width:140px}
+.card-info{padding:10px 14px;text-align:center;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all .3s}
+.card-info.hidden-info{color:var(--text-dim);font-size:15px;min-height:50px}
+.card-info .name{font-size:20px;font-weight:700;color:var(--gold-light);line-height:1.1}
+.card-info .details{font-size:12px;color:var(--text-dim);margin-top:3px;line-height:1.3}
+.card-info .bio-line{font-size:11px;color:var(--text-dim);margin-top:2px;opacity:.8;line-height:1.2}
+.flash-nav{display:flex;gap:8px;justify-content:center;flex-shrink:0;padding:2px 0}
+.flash-nav button{background:var(--navy);border:2px solid var(--gold);color:var(--gold-light);padding:10px 20px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;flex:1;max-width:120px}
 .flash-nav button:active{background:var(--gold);color:var(--navy)}
 
-/* QUIZ VIEW */
-#view-quiz{padding:8px 12px;gap:8px}
-.score-bar{display:flex;justify-content:space-between;align-items:center;background:var(--card);padding:10px 14px;border-radius:12px;flex-shrink:0}
-.score-bar .score{font-size:18px;font-weight:700;color:var(--gold-light)}
-.score-bar .label{font-size:11px;color:var(--text-dim)}
-.score-bar button{background:var(--gold);color:var(--navy);border:none;padding:7px 14px;border-radius:8px;font-weight:600;font-size:12px;cursor:pointer}
-.quiz-card-wrap{flex:1;min-height:0;border-radius:16px;overflow:hidden;background:var(--card);box-shadow:0 4px 20px rgba(0,0,0,.4)}
-.quiz-card-wrap img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
-.quiz-options{display:grid;grid-template-columns:1fr 1fr;gap:8px;flex-shrink:0}
-.quiz-options button{background:var(--card);border:2px solid var(--gold);color:var(--text);padding:14px 10px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;line-height:1.2}
+/* QUIZ */
+#view-quiz{padding:6px 10px;gap:6px}
+.score-bar{display:flex;justify-content:space-between;align-items:center;background:var(--card);padding:8px 12px;border-radius:10px;flex-shrink:0}
+.score-bar .score{font-size:16px;font-weight:700;color:var(--gold-light)}
+.score-bar .label{font-size:10px;color:var(--text-dim)}
+.score-bar button{background:var(--gold);color:var(--navy);border:none;padding:6px 12px;border-radius:8px;font-weight:600;font-size:11px;cursor:pointer}
+.quiz-card-wrap{flex:1;min-height:0;border-radius:14px;overflow:hidden;background:var(--card);box-shadow:0 4px 20px rgba(0,0,0,.4);position:relative}
+.quiz-card-wrap img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+.quiz-card-wrap .photo-type{position:absolute;top:6px;right:6px;background:rgba(0,0,0,.6);color:#fff;padding:2px 8px;border-radius:10px;font-size:10px}
+.quiz-options{display:grid;grid-template-columns:1fr 1fr;gap:6px;flex-shrink:0}
+.quiz-options button{background:var(--card);border:2px solid var(--gold);color:var(--text);padding:12px 8px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;line-height:1.2;position:relative}
+.quiz-options button .key-hint{position:absolute;top:3px;left:6px;font-size:9px;color:var(--text-dim);font-weight:400}
 .quiz-options button:active{transform:scale(.97)}
 .quiz-options button.correct{background:#1a6b2a;border-color:var(--green);color:#fff}
 .quiz-options button.wrong{background:#6b1a1a;border-color:var(--red);color:#fff}
 
-/* STATS VIEW */
-#view-progress{padding:8px 12px;gap:8px}
-.legend{display:flex;gap:14px;justify-content:center;font-size:11px;color:var(--text-dim);flex-shrink:0}
-.legend span::before{content:'';display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;vertical-align:middle}
-.legend .l-m::before{background:var(--green)}
-.legend .l-s::before{background:var(--red)}
-.legend .l-u::before{background:#555}
+/* STATS */
+#view-progress{padding:6px 10px;gap:6px}
+.stats-summary{display:flex;gap:8px;flex-shrink:0}
+.stats-summary .stat-box{flex:1;background:var(--card);border-radius:10px;padding:8px;text-align:center}
+.stats-summary .stat-num{font-size:20px;font-weight:700;color:var(--gold-light)}
+.stats-summary .stat-label{font-size:9px;color:var(--text-dim);text-transform:uppercase}
+.legend{display:flex;gap:12px;justify-content:center;font-size:10px;color:var(--text-dim);flex-shrink:0}
+.legend span::before{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:3px;vertical-align:middle}
+.legend .l-m::before{background:var(--green)}.legend .l-l::before{background:#f39c12}.legend .l-s::before{background:var(--red)}.legend .l-u::before{background:#555}
 .progress-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;min-height:0}
-.progress-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;padding-bottom:8px}
-.progress-item{background:var(--card);border-radius:10px;padding:8px;display:flex;align-items:center;gap:8px}
-.progress-item img{width:44px;height:44px;border-radius:50%;object-fit:cover;object-position:top;flex-shrink:0}
-.progress-item .pi-name{font-size:12px;font-weight:600;line-height:1.2}
+.progress-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px;padding-bottom:6px}
+.progress-item{background:var(--card);border-radius:10px;padding:8px;display:flex;align-items:center;gap:6px;border:2px solid transparent}
+.progress-item img{width:40px;height:40px;border-radius:50%;object-fit:cover;object-position:top;flex-shrink:0}
+.progress-item .pi-info{min-width:0}
+.progress-item .pi-name{font-size:11px;font-weight:600;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .progress-item .pi-stat{font-size:10px;color:var(--text-dim)}
-.progress-item.mastered{border:2px solid var(--green)}
-.progress-item.struggling{border:2px solid var(--red)}
-.progress-item.unseen{border:2px solid #555}
-.reset-btn{background:none;border:1px solid #555;color:var(--text-dim);padding:8px 16px;border-radius:8px;font-size:12px;cursor:pointer;display:block;margin:8px auto 0;flex-shrink:0}
+.progress-item .pi-bar{height:3px;border-radius:2px;background:#333;margin-top:3px}
+.progress-item .pi-bar-fill{height:100%;border-radius:2px;transition:width .3s}
+.progress-item.mastered{border-color:var(--green)}
+.progress-item.learning{border-color:#f39c12}
+.progress-item.struggling{border-color:var(--red)}
+.progress-item.unseen{border-color:#333}
+.reset-btn{background:none;border:1px solid #555;color:var(--text-dim);padding:6px 14px;border-radius:8px;font-size:11px;cursor:pointer;display:block;margin:4px auto 0;flex-shrink:0}
 
-/* Desktop: constrain width */
-@media(min-width:600px){
-  #app{max-width:480px;margin:0 auto}
+@media(min-width:600px){#app{max-width:480px;margin:0 auto}}
+@media(max-height:600px){
+ .card-info .name{font-size:17px}
+ .card-info .details,.card-info .bio-line{font-size:10px}
+ .flash-nav button{padding:8px 14px;font-size:12px}
+ .quiz-options button{padding:10px 6px;font-size:12px}
 }
 </style>
 </head>
@@ -111,12 +121,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 </div>
 
 <div class="view active" id="view-flash">
- <div class="flash-progress" id="flash-progress"></div>
+ <div class="flash-progress"><span id="flash-progress-text"></span><span class="photo-toggle" id="photo-toggle" onclick="togglePhoto(event)">📷 Action</span></div>
  <div class="card-wrap" id="flash-card" onclick="flipCard()">
   <div class="card">
    <div class="card-img-wrap">
-    <img id="flash-img" src="" alt="" onerror="this.style.display='none'">
-    <div class="no-photo" id="flash-noimg" style="display:none">📷</div>
+    <img id="flash-img" src="" alt="">
+    <div class="no-photo" id="flash-noimg" style="display:none">📷 No photo</div>
    </div>
    <div class="card-info hidden-info" id="flash-info">Tap to reveal</div>
   </div>
@@ -132,175 +142,260 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
  <div class="score-bar">
   <div><div class="label">Score</div><div class="score" id="quiz-score">0/0</div></div>
   <div><div class="label">Streak</div><div class="score" id="quiz-streak">0🔥</div></div>
+  <div><div class="label">Due</div><div class="score" id="quiz-due">0</div></div>
   <button onclick="startQuiz()">New</button>
  </div>
  <div class="quiz-card-wrap">
   <img id="quiz-img" src="" alt="">
+  <div class="photo-type" id="quiz-photo-type"></div>
  </div>
  <div class="quiz-options" id="quiz-options"></div>
 </div>
 
 <div class="view" id="view-progress">
+ <div class="stats-summary">
+  <div class="stat-box"><div class="stat-num" id="stat-mastered">0</div><div class="stat-label">Mastered</div></div>
+  <div class="stat-box"><div class="stat-num" id="stat-learning">0</div><div class="stat-label">Learning</div></div>
+  <div class="stat-box"><div class="stat-num" id="stat-unseen">0</div><div class="stat-label">Unseen</div></div>
+ </div>
  <div class="legend">
   <span class="l-m">Mastered</span>
+  <span class="l-l">Learning</span>
   <span class="l-s">Struggling</span>
   <span class="l-u">Unseen</span>
  </div>
  <div class="progress-scroll">
   <div class="progress-grid" id="progress-grid"></div>
  </div>
- <button class="reset-btn" onclick="resetProgress()">Reset Progress</button>
+ <button class="reset-btn" onclick="resetProgress()">Reset All Progress</button>
 </div>
 </div>
 
 <script>
-/* --- PIN GATE --- */
+/* === PIN === */
 const PIN_HASH='08d16';
 const pinInput=document.getElementById('pin-input');
 pinInput.addEventListener('input',async()=>{
  if(pinInput.value.length===4){
   const buf=await crypto.subtle.digest('SHA-1',new TextEncoder().encode('vbfc:'+pinInput.value));
   const hex=[...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,'0')).join('');
-  if(hex.startsWith(PIN_HASH)){
-   sessionStorage.setItem('vba','1');
-   document.getElementById('pin-gate').style.display='none';
-   document.getElementById('app').style.display='flex';
-  }else{
-   document.getElementById('pin-err').textContent='Wrong PIN';
-   pinInput.value='';pinInput.focus();
-  }
+  if(hex.startsWith(PIN_HASH)){sessionStorage.setItem('vba','1');boot()}
+  else{document.getElementById('pin-err').textContent='Wrong PIN';pinInput.value='';pinInput.focus()}
  }else{document.getElementById('pin-err').textContent=''}
 });
-if(sessionStorage.getItem('vba')==='1'){
- document.getElementById('pin-gate').style.display='none';
- document.getElementById('app').style.display='flex';
-}
+function boot(){document.getElementById('pin-gate').style.display='none';const a=document.getElementById('app');a.style.display='flex'}
+if(sessionStorage.getItem('vba')==='1')boot();
 
-/* --- ROSTER DATA --- */
+/* === CDN === */
+const CDN='https://dxbhsrqyrr690.cloudfront.net/sidearm.nextgen.sites/berryvikings.com/';
+
+/* === ROSTER (no Riley Kessler, no Caitlyn/Rachel) === */
 const R=[
-{name:"Kara Schmit",num:1,pos:"Def",year:"Sr.",ht:"5'8\"",town:"Muskego, Wis.",hs:"Divine Savior Holy Angels",major:"",club:"",type:"player"},
-{name:"Becky Blaydes",num:2,pos:"Spl/Def",year:"Jr.",ht:"5'7\"",town:"Roswell, Ga.",hs:"Pope",major:"",club:"",type:"player"},
-{name:"Riley Kessler",num:3,pos:"D",year:"Fr.",ht:"5'5\"",town:"Littleton, Colo.",hs:"Chatfield",major:"",club:"",type:"player"},
-{name:"Grace Mau",num:4,pos:"B",year:"Jr.",ht:"6'0\"",town:"Lynchburg, Va.",hs:"Liberty Christian",major:"Animal Science/Pre-Vet",club:"",type:"player"},
-{name:"Kaylee Howell",num:5,pos:"Spl",year:"Jr.",ht:"5'10\"",town:"Roswell, Ga.",hs:"Johnson Ferry Christian Academy",major:"",club:"",type:"player"},
-{name:"Ailee England",num:6,pos:"Spl",year:"So.",ht:"5'9\"",town:"Cartersville, Ga.",hs:"Cartersville",major:"",club:"",type:"player"},
-{name:"Madie Whitehead",num:7,pos:"B",year:"Jr.",ht:"5'9\"",town:"Pearland, Tx.",hs:"Pearland",major:"Exercise Science",club:"Houston Stellar VB Club",type:"player"},
-{name:"Ava Brovet",num:8,pos:"Spl",year:"Fr.",ht:"5'9\"",town:"Raleigh, N.C.",hs:"Trinity Academy of Raleigh",major:"",club:"",type:"player"},
-{name:"Keira Kruk",num:9,pos:"Def/Spl",year:"Jr.",ht:"5'10\"",town:"Naples, Fla.",hs:"Barron Collier",major:"Nursing",club:"USA South VB Club",type:"player"},
-{name:"Hope Kimsey",num:10,pos:"B",year:"So.",ht:"5'11\"",town:"Lakeland, Fla.",hs:"McKeel Academy",major:"",club:"",type:"player"},
-{name:"Kat Kelyman",num:11,pos:"Def",year:"Sr.",ht:"5'8\"",town:"Silver Spring, Md.",hs:"St. John's College",major:"",club:"",type:"player"},
-{name:"Maddie Dahl",num:12,pos:"—",year:"So.",ht:"",town:"Lexington, Va.",hs:"Rockbridge County",major:"",club:"",type:"player"},
-{name:"Lura Underwood",num:16,pos:"Spl/Def",year:"Sr.",ht:"5'10\"",town:"Atlanta, Ga.",hs:"St. Pius X Catholic",major:"",club:"",type:"player"},
-{name:"Hannah Hagen",num:18,pos:"D",year:"Fr.",ht:"5'5\"",town:"Cumming, Ga.",hs:"North Forsyth",major:"Intl Business/Marketing",club:"",type:"player"},
-{name:"Maddi Hoffman",num:22,pos:"Spl",year:"Fr.",ht:"5'8\"",town:"Monterey, Calif.",hs:"Carrollton",major:"Biology",club:"",type:"player"},
-{name:"Ryn Gaertner",num:24,pos:"Spl",year:"Jr.",ht:"5'10\"",town:"Knoxville, Tenn.",hs:"West",major:"Business & Chemistry",club:"Club Unite",type:"player"},
-{name:"Sabine Rudolph",num:25,pos:"Spl",year:"Jr.",ht:"5'10\"",town:"Palm City, Fla.",hs:"Jensen Beach",major:"Intl Business & Pre-Pharmacy",club:"",type:"player"},
-{name:"Cadence Maxfield",num:null,pos:"—",year:"Sr.",ht:"5'9\"",town:"Green Bay, Wis.",hs:"Notre Dame Academy",major:"",club:"",type:"player"},
-{name:"Caitlyn Moriarty",num:null,pos:"Head Coach",year:null,ht:"",town:"",hs:"",major:"",club:"",type:"coach"},
-{name:"Rachel Ford",num:null,pos:"Asst Coach",year:null,ht:"",town:"",hs:"",major:"",club:"",type:"coach"},
-{name:"Molly Bergin",num:null,pos:"Asst Coach",year:null,ht:"",town:"",hs:"",major:"",club:"",type:"coach"},
+{name:"Kara Schmit",num:1,pos:"Def",year:"Sr.",ht:"5'8\"",town:"Muskego, Wis.",hs:"Divine Savior Holy Angels",major:"",img:"images/2026/1/21/Headshots_Kara_Schmit.jpg",action:"images/2025/1/16/Kara_Schmit_use_YJ9xC.jpg"},
+{name:"Becky Blaydes",num:2,pos:"Spl/Def",year:"Jr.",ht:"5'7\"",town:"Roswell, Ga.",hs:"Pope",major:"",img:"images/2026/1/21/Headshots_Becky_Bleydes.jpg",action:"images/2025/1/16/Becky_Blaydes_vOH1b.jpg"},
+{name:"Grace Mau",num:4,pos:"B",year:"Jr.",ht:"6'0\"",town:"Lynchburg, Va.",hs:"Liberty Christian",major:"Animal Science / Pre-Vet",img:"images/2026/1/21/Headshots_Grace_Mau.jpg",action:"images/2025/1/16/Grace_Mau_RuYAX.jpg"},
+{name:"Kaylee Howell",num:5,pos:"Spl",year:"Jr.",ht:"5'10\"",town:"Roswell, Ga.",hs:"Johnson Ferry Christian Acad.",major:"",img:"images/2026/1/21/Headshots_Kaylee_Howell.jpg",action:"images/2025/1/16/Kaylee_Howell_jcalr.jpg"},
+{name:"Ailee England",num:6,pos:"Spl",year:"So.",ht:"5'9\"",town:"Cartersville, Ga.",hs:"Cartersville",major:"",img:"images/2026/1/21/Headshots_Ailee_England.jpg",action:"images/2025/1/16/Ailee_England_CnnUj.jpg"},
+{name:"Madie Whitehead",num:7,pos:"B",year:"Jr.",ht:"5'9\"",town:"Pearland, Tx.",hs:"Pearland",major:"Exercise Science",img:"images/2026/1/21/Headshots_Madie_Whitehead.jpg",action:"images/2025/1/16/Madie_Whitehead_yradz.jpg"},
+{name:"Ava Brovet",num:8,pos:"Spl",year:"Fr.",ht:"5'9\"",town:"Raleigh, N.C.",hs:"Trinity Academy of Raleigh",major:"",img:"images/2026/1/21/Headshots_Ava_Brovet.jpg",action:"images/2026/2/19/nek-6635.jpg"},
+{name:"Keira Kruk",num:9,pos:"Def/Spl",year:"Jr.",ht:"5'10\"",town:"Naples, Fla.",hs:"Barron Collier",major:"Nursing",img:"images/2026/1/21/Headshots_Keira_Kruk.jpg",action:"images/2025/1/16/Keira_Kruk_YelFA.jpg"},
+{name:"Hope Kimsey",num:10,pos:"B",year:"So.",ht:"5'11\"",town:"Lakeland, Fla.",hs:"McKeel Academy",major:"",img:"images/2026/1/21/Headshots_Hope_Kimsey.jpg",action:""},
+{name:"Kat Kelyman",num:11,pos:"Def",year:"Sr.",ht:"5'8\"",town:"Silver Spring, Md.",hs:"St. John's College",major:"",img:"",action:"images/2025/1/16/Kat_Kelyman_M9RPx.jpg"},
+{name:"Maddie Dahl",num:12,pos:"—",year:"So.",ht:"",town:"Lexington, Va.",hs:"Rockbridge County",major:"",img:"images/2026/1/21/Headshots_Maddie_Dahl.jpg",action:""},
+{name:"Lura Underwood",num:16,pos:"Spl/Def",year:"Sr.",ht:"5'10\"",town:"Atlanta, Ga.",hs:"St. Pius X Catholic",major:"",img:"images/2026/1/21/Headshots_Lura_Underwood.jpg",action:"images/2025/3/8/DSC_3051.jpg"},
+{name:"Hannah Hagen",num:18,pos:"D",year:"Fr.",ht:"5'5\"",town:"Cumming, Ga.",hs:"North Forsyth",major:"Intl Business / Marketing",img:"images/2026/1/21/Headshots_Hannah_Hagen.jpg",action:""},
+{name:"Maddi Hoffman",num:22,pos:"Spl",year:"Fr.",ht:"5'8\"",town:"Monterey, Calif.",hs:"Carrollton",major:"Biology",img:"images/2026/1/21/Headshots_Maddi_Hoffman.jpg",action:""},
+{name:"Ryn Gaertner",num:24,pos:"Spl",year:"Jr.",ht:"5'10\"",town:"Knoxville, Tenn.",hs:"West",major:"Business & Chemistry",img:"images/2026/1/21/Headshots_Ryn_Gaertner.jpg",action:"images/2025/1/16/Ryn_Gaertner_Lldkj.jpg"},
+{name:"Sabine Rudolph",num:25,pos:"Spl",year:"Jr.",ht:"5'10\"",town:"Palm City, Fla.",hs:"Jensen Beach",major:"Intl Business & Pre-Pharmacy",img:"images/2026/1/21/Headshots_Sabine_Rudolph.jpg",action:"images/2025/1/16/Sabine_Rudolph_hQ9MS.jpg"},
+{name:"Cadence Maxfield",num:null,pos:"—",year:"Sr.",ht:"5'9\"",town:"Green Bay, Wis.",hs:"Notre Dame Academy",major:"",img:"images/2026/1/21/Headshots_Cadence_Maxfield.jpg",action:""},
+{name:"Molly Bergin",num:null,pos:"Asst Coach",year:"",ht:"",town:"",hs:"",major:"",img:"",action:""},
 ];
 
-function imgUrl(p){const[f,...r]=p.name.split(' ');return`https://berryvikings.com/images/2026/1/21/Headshots_${f}_${r.join('_')}.jpg`}
+function pimg(p,type){
+ const path=type==='action'&&p.action?p.action:(p.img||p.action);
+ return path?CDN+path:'';
+}
 function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=0|Math.random()*(i+1);[b[i],b[j]]=[b[j],b[i]]}return b}
 
-/* --- PROGRESS --- */
-function gp(){try{return JSON.parse(localStorage.getItem('vb2'))||{}}catch(e){return{}}}
-function sp(p){localStorage.setItem('vb2',JSON.stringify(p))}
-function rec(name,ok){const p=gp();if(!p[name])p[name]={r:0,w:0};ok?p[name].r++:p[name].w++;sp(p)}
-function resetProgress(){if(confirm('Reset all progress?')){localStorage.removeItem('vb2');renderProgress()}}
+/* === SPACED REPETITION (SM-2 simplified) === */
+function gp(){try{return JSON.parse(localStorage.getItem('vb3'))||{}}catch(e){return{}}}
+function sp(p){localStorage.setItem('vb3',JSON.stringify(p))}
+function getCard(name){
+ const p=gp();
+ if(!p[name])p[name]={ef:2.5,interval:1,reps:0,right:0,wrong:0,nextReview:0};
+ return p[name];
+}
+function rec(name,quality){
+ // quality: 0-5 (SM-2). 0-2=wrong, 3=hard, 4=good, 5=easy
+ const p=gp();
+ const c=getCard(name);
+ if(quality>=3){
+  c.right++;
+  if(c.reps===0)c.interval=1;
+  else if(c.reps===1)c.interval=3;
+  else c.interval=Math.round(c.interval*c.ef);
+  c.reps++;
+ }else{
+  c.wrong++;
+  c.reps=0;
+  c.interval=1;
+ }
+ c.ef=Math.max(1.3,c.ef+(0.1-(5-quality)*(0.08+(5-quality)*0.02)));
+ c.nextReview=Date.now()+c.interval*60000; // minutes for a study session
+ p[name]=c;sp(p);
+}
+function getDue(){
+ const now=Date.now();
+ return R.filter(p=>{const c=getCard(p.name);return c.reps===0||c.nextReview<=now});
+}
+function getStatus(name){
+ const c=getCard(name);
+ if(c.reps===0&&c.right===0)return 'unseen';
+ if(c.reps>=3&&c.ef>=2.0)return 'mastered';
+ if(c.wrong>c.right)return 'struggling';
+ return 'learning';
+}
+function resetProgress(){if(confirm('Reset all progress?')){localStorage.removeItem('vb3');renderProgress()}}
 
-/* --- FLASHCARD --- */
-let deck=shuffle(R),di=0,rev=false;
-function setImg(id,noid,p){
- const img=document.getElementById(id),no=document.getElementById(noid);
- if(no)no.style.display='none';
- img.style.display='';
- img.onerror=()=>{img.style.display='none';if(no)no.style.display='flex'};
- img.src=imgUrl(p);img.alt=p.name;
+/* === FLASHCARD === */
+let deck=shuffle(R),di=0,rev=false,showAction=false;
+function setFlashImg(p){
+ const img=document.getElementById('flash-img'),no=document.getElementById('flash-noimg');
+ const url=showAction?pimg(p,'action'):pimg(p,'headshot');
+ if(!url){img.style.display='none';no.style.display='flex';return}
+ no.style.display='none';img.style.display='';
+ img.onerror=()=>{img.style.display='none';no.style.display='flex'};
+ img.src=url;img.alt=p.name;
 }
 function renderFlash(){
  const p=deck[di];
- setImg('flash-img','flash-noimg',p);
+ setFlashImg(p);
  const info=document.getElementById('flash-info');
  if(rev){
   info.className='card-info';
   const numStr=p.num?`#${p.num} · `:'';
   const htStr=p.ht?` · ${p.ht}`:'';
-  let bio=[];
-  if(p.town)bio.push(p.town);
-  if(p.hs)bio.push(p.hs);
-  let bio2=[];
-  if(p.major)bio2.push(p.major);
-  if(p.club)bio2.push(p.club);
+  let lines=[];
+  if(p.town)lines.push('📍 '+p.town);
+  if(p.hs)lines.push('🏫 '+p.hs);
+  let lines2=[];
+  if(p.major)lines2.push('📚 '+p.major);
   info.innerHTML=`<div class="name">${p.name}</div>`+
-   `<div class="details">${numStr}${p.pos} · ${p.year||''}${htStr}</div>`+
-   (bio.length?`<div class="bio-line">📍 ${bio.join(' · ')}</div>`:'')+
-   (bio2.length?`<div class="bio-line">${bio2.join(' · ')}</div>`:'');
+   `<div class="details">${numStr}${p.pos}${p.year?' · '+p.year:''}${htStr}</div>`+
+   (lines.length?`<div class="bio-line">${lines.join(' · ')}</div>`:'')+
+   (lines2.length?`<div class="bio-line">${lines2.join('')}</div>`:'');
  }else{
   info.className='card-info hidden-info';
   info.innerHTML='Tap to reveal';
  }
- document.getElementById('flash-progress').textContent=`${di+1} / ${deck.length}`;
+ document.getElementById('flash-progress-text').textContent=`${di+1} / ${deck.length}`;
+ document.getElementById('photo-toggle').textContent=showAction?'📷 Action':'📷 Headshot';
 }
 function flipCard(){rev=!rev;renderFlash()}
 function nextCard(){di=(di+1)%deck.length;rev=false;renderFlash()}
 function prevCard(){di=(di-1+deck.length)%deck.length;rev=false;renderFlash()}
 function shuffleDeck(){deck=shuffle(R);di=0;rev=false;renderFlash()}
+function togglePhoto(e){e&&e.stopPropagation();showAction=!showAction;renderFlash()}
 
 /* Swipe */
-let tx=0;
-document.addEventListener('touchstart',e=>{tx=e.changedTouches[0].screenX},{passive:true});
+let tx=0,ty=0;
+document.addEventListener('touchstart',e=>{tx=e.changedTouches[0].screenX;ty=e.changedTouches[0].screenY},{passive:true});
 document.addEventListener('touchend',e=>{
- const dx=e.changedTouches[0].screenX-tx;
- if(Math.abs(dx)>60&&document.getElementById('view-flash').classList.contains('active')){dx<0?nextCard():prevCard()}
+ const dx=e.changedTouches[0].screenX-tx,dy=e.changedTouches[0].screenY-ty;
+ if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)&&document.getElementById('view-flash').classList.contains('active')){dx<0?nextCard():prevCard()}
 },{passive:true});
 
-/* --- QUIZ --- */
-let qd=[],qi=0,qc=0,qt=0,qs=0,ql=false;
-function startQuiz(){qd=shuffle(R);qi=0;qc=0;qt=0;qs=0;updScore();renderQuiz()}
+/* Keyboard: arrows for flashcards, 1-4 for quiz */
+document.addEventListener('keydown',e=>{
+ if(document.getElementById('pin-gate').style.display!=='none')return;
+ const flash=document.getElementById('view-flash').classList.contains('active');
+ const quiz=document.getElementById('view-quiz').classList.contains('active');
+ if(flash){
+  if(e.key==='ArrowRight')nextCard();
+  else if(e.key==='ArrowLeft')prevCard();
+  else if(e.key===' '||e.key==='ArrowUp'||e.key==='ArrowDown'){e.preventDefault();flipCard()}
+ }
+ if(quiz){
+  const n=parseInt(e.key);
+  if(n>=1&&n<=4){
+   const btns=document.querySelectorAll('#quiz-options button');
+   if(btns[n-1]&&!quizLocked)btns[n-1].click();
+  }
+ }
+});
+
+/* === QUIZ (spaced repetition priority) === */
+let qd=[],qi=0,qc=0,qt=0,qs=0,quizLocked=false;
+function buildQuizDeck(){
+ const due=getDue();
+ if(due.length>=4)return shuffle(due);
+ // Not enough due - mix in others
+ const rest=shuffle(R.filter(p=>!due.find(d=>d.name===p.name)));
+ return shuffle([...due,...rest.slice(0,Math.max(4,8-due.length))]);
+}
+function startQuiz(){qd=buildQuizDeck();qi=0;qc=0;qt=0;qs=0;updScore();renderQuiz()}
 function updScore(){
  document.getElementById('quiz-score').textContent=`${qc}/${qt}`;
  document.getElementById('quiz-streak').textContent=`${qs}🔥`;
+ document.getElementById('quiz-due').textContent=getDue().length;
 }
 function renderQuiz(){
- if(qi>=qd.length){qi=0;qd=shuffle(R)}
- ql=false;const p=qd[qi];
- document.getElementById('quiz-img').src=imgUrl(p);
+ if(qi>=qd.length){qd=buildQuizDeck();qi=0}
+ quizLocked=false;
+ const p=qd[qi];
+ // Randomly show headshot or action photo in quiz for variety
+ const useAction=p.action&&Math.random()>0.4;
+ const img=document.getElementById('quiz-img');
+ const url=useAction?CDN+p.action:pimg(p,'headshot');
+ img.src=url||'';
+ img.onerror=()=>{if(useAction&&p.img){img.src=CDN+p.img}};
+ document.getElementById('quiz-photo-type').textContent=useAction?'Action':'Headshot';
  const others=shuffle(R.filter(x=>x.name!==p.name)).slice(0,3);
  const opts=shuffle([p,...others]);
  const c=document.getElementById('quiz-options');c.innerHTML='';
- opts.forEach(o=>{
-  const b=document.createElement('button');b.textContent=o.name;
+ opts.forEach((o,i)=>{
+  const b=document.createElement('button');
+  b.innerHTML=`<span class="key-hint">${i+1}</span>${o.name}`;
   b.onclick=()=>ansQuiz(b,o.name===p.name,p.name);c.appendChild(b);
  });
+ updScore();
 }
 function ansQuiz(b,ok,cn){
- if(ql)return;ql=true;qt++;
- if(ok){b.classList.add('correct');qc++;qs++;rec(cn,true)}
- else{b.classList.add('wrong');qs=0;rec(cn,false);
-  document.querySelectorAll('#quiz-options button').forEach(x=>{if(x.textContent===cn)x.classList.add('correct')})}
- updScore();setTimeout(()=>{qi++;renderQuiz()},ok?700:1400);
+ if(quizLocked)return;quizLocked=true;qt++;
+ if(ok){b.classList.add('correct');qc++;qs++;rec(cn,4)}
+ else{b.classList.add('wrong');qs=0;rec(cn,1);
+  document.querySelectorAll('#quiz-options button').forEach(x=>{if(x.textContent.includes(cn))x.classList.add('correct')})}
+ updScore();setTimeout(()=>{qi++;renderQuiz()},ok?600:1200);
 }
 
-/* --- PROGRESS --- */
+/* === PROGRESS === */
 function renderProgress(){
- const prog=gp(),g=document.getElementById('progress-grid');g.innerHTML='';
+ const g=document.getElementById('progress-grid');g.innerHTML='';
+ let counts={mastered:0,learning:0,struggling:0,unseen:0};
  R.forEach(p=>{
-  const s=prog[p.name]||{r:0,w:0},t=s.r+s.w;
-  let c='unseen';if(t>0)c=s.r>=3&&s.r>s.w?'mastered':'struggling';
-  if(s.r>0&&s.w===0&&t<3)c='unseen';
-  const d=document.createElement('div');d.className=`progress-item ${c}`;
-  d.innerHTML=`<img src="${imgUrl(p)}" alt="" onerror="this.style.display='none'"><div><div class="pi-name">${p.name}</div><div class="pi-stat">${s.r}✓ ${s.w}✗</div></div>`;
+  if(p.pos==='Asst Coach'||p.pos==='Head Coach')return;
+  const status=getStatus(p.name);
+  counts[status]=(counts[status]||0)+1;
+  const c=getCard(p.name);
+  const total=c.right+c.wrong;
+  const pct=total>0?Math.round(c.right/total*100):0;
+  const d=document.createElement('div');d.className=`progress-item ${status}`;
+  const imgUrl=pimg(p,'headshot')||pimg(p,'action');
+  d.innerHTML=`${imgUrl?`<img src="${imgUrl}" alt="" onerror="this.style.display='none'">`:''}
+   <div class="pi-info"><div class="pi-name">${p.name}</div>
+   <div class="pi-stat">${c.right}✓ ${c.wrong}✗${total>0?' · '+pct+'%':''}</div>
+   ${total>0?`<div class="pi-bar"><div class="pi-bar-fill" style="width:${pct}%;background:${pct>=70?'var(--green)':pct>=40?'#f39c12':'var(--red)'}"></div></div>`:''}</div>`;
   g.appendChild(d);
  });
+ document.getElementById('stat-mastered').textContent=counts.mastered;
+ document.getElementById('stat-learning').textContent=counts.learning+(counts.struggling||0);
+ document.getElementById('stat-unseen').textContent=counts.unseen;
 }
 
-/* --- TABS --- */
+/* === TABS === */
 function switchTab(t){
  document.querySelectorAll('.tabs button').forEach((b,i)=>{
-  const ids=['flash','quiz','progress'];
-  b.classList.toggle('active',ids[i]===t);
+  const ids=['flash','quiz','progress'];b.classList.toggle('active',ids[i]===t);
  });
  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+t));
  if(t==='progress')renderProgress();
